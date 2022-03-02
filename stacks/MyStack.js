@@ -11,9 +11,21 @@ export default class MyStack extends sst.Stack {
       },
     });
 
+    const site = new sst.StaticSite(this, "StaticSite", {
+      path: "frontend",
+      errorPage: "404.html",
+      indexPage: "index.html",
+      buildOutput: "public",
+      buildCommand: "npm run build",
+      s3Bucket: {
+        publicReadAccess: true,
+      },
+    });
+
     // Show the endpoint in the output
     this.addOutputs({
-      "ApiEndpoint": api.url,
+      SiteUrl: site.url,
+      ApiEndpoint: api.url,
     });
   }
 }
